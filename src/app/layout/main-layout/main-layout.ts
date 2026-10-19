@@ -18,6 +18,7 @@ import { addIcons } from 'ionicons';
 import { homeOutline } from 'ionicons/icons';
 import { NavigationService } from '../navigation/navigation.service';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
+import { UserMenu } from '../user-menu/user-menu';
 
 /**
  * Esqueleto de la app: menú lateral + contenido.
@@ -47,6 +48,7 @@ import { ThemeToggle } from '../theme-toggle/theme-toggle';
     IonLabel,
     IonRouterOutlet,
     ThemeToggle,
+    UserMenu,
   ],
   templateUrl: './main-layout.html',
   // Aloja un ion-router-outlet: la guía de zoneless de Ionic pide Eager (ver App).

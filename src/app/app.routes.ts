@@ -14,5 +14,10 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    // Fuera del layout principal: la página de login no tiene menú lateral.
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routes'),
+  },
   { path: '**', redirectTo: '' },
 ];

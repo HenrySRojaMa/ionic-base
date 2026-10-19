@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideIonicAngular } from '@ionic/angular';
 import { provideCore } from '@core/core.providers';
 import { routes } from './app.routes';
@@ -13,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     // con signals). Sin esto usaría Object.assign y pisaría el signal del input.
     provideIonicAngular({ useSetInputAPI: true }),
     provideCore(),
-    provideRouter(routes),
+    // withComponentInputBinding: los parámetros de la URL llegan como input() (ion-router-outlet lo soporta).
+    provideRouter(routes, withComponentInputBinding()),
   ],
 };

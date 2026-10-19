@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Tailwind solo para maquetar: centrado y con ancho máximo en pantallas grandes. -->
+  <div class="mx-auto flex min-h-full max-w-sm flex-col justify-center">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Bienvenido</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form class="flex flex-col gap-4" [formRoot]="f">
+          <app-input label="Usuario" autocomplete="username" [formField]="f.username" />
+          <app-input
+            label="Contraseña"
+            type="password"
+            autocomplete="current-password"
+            [formField]="f.password"
+          />
+
+          @if (showDemoHint) {
+            <ion-note>
+              Backend simulado: usuario <strong>demo</strong>, contraseña <strong>demo123</strong>.
+            </ion-note>
+          }
+
+          <ion-button type="submit" expand="block" [disabled]="f().submitting()">
+            @if (f().submitting()) {
+              <ion-spinner slot="start" name="crescent" />
+            }
+            Ingresar
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
