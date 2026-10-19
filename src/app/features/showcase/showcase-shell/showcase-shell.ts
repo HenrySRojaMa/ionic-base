@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { documentTextOutline, gitNetworkOutline } from 'ionicons/icons';
+import { documentTextOutline, gitNetworkOutline, listOutline } from 'ionicons/icons';
 
 interface ShowcaseTab {
   label: string;
@@ -41,9 +41,10 @@ export class ShowcaseShell {
   protected readonly tabs: ShowcaseTab[] = [
     { label: 'Formularios', path: 'forms', icon: 'document-text-outline' },
     { label: 'Cascada', path: 'cascade', icon: 'git-network-outline' },
+    { label: 'Tabla', path: 'table', icon: 'list-outline' },
   ];
 
   constructor() {
-    addIcons({ documentTextOutline, gitNetworkOutline });
+    addIcons({ documentTextOutline, gitNetworkOutline, listOutline });
   }
 }

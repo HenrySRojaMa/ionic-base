@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { CascadePage } from './pages/cascade-page/cascade-page';
 import { FormsPage } from './pages/forms-page/forms-page';
+import { TablePage } from './pages/table-page/table-page';
 import { ShowcaseShell } from './showcase-shell/showcase-shell';
 
 /** Documentación viva de la base. Se borra al iniciar un proyecto (con su ruta y su ítem de menú). */
@@ -11,6 +12,7 @@ export default [
     children: [
       { path: 'forms', component: FormsPage, title: 'Showcase · Formularios' },
       { path: 'cascade', component: CascadePage, title: 'Showcase · Cascada' },
+      { path: 'table', component: TablePage, title: 'Showcase · Tabla' },
       { path: '', pathMatch: 'full', redirectTo: 'forms' },
     ],
   },

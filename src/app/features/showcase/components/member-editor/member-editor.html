@@ -1,0 +1,25 @@
+<!--
+  El <form> envuelve TODO el modal para que "Guardar" (en la barra superior) sea su
+  botón submit: [formRoot] valida y solo cierra si el formulario es válido.
+-->
+<form class="contents" [formRoot]="f">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="close()">Cancelar</ion-button>
+      </ion-buttons>
+      <ion-title>{{ data() ? 'Editar integrante' : 'Nuevo integrante' }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button type="submit" strong>Guardar</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <div class="flex flex-col gap-4">
+      <app-input label="Nombre" [formField]="f.name" />
+      <app-input label="Correo" type="email" [formField]="f.email" />
+      <app-select label="Rol" overlay="action-sheet" [options]="roles" [formField]="f.role" />
+    </div>
+  </ion-content>
+</form>

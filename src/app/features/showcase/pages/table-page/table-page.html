@@ -1,0 +1,55 @@
+<ion-header>
+  <app-page-toolbar title="Tabla" />
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="mx-auto grid max-w-4xl grid-cols-1">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Modo interno</ion-card-title>
+        <ion-card-subtitle>
+          La tabla es un campo más del formulario: agrega y edita con un modal (hoja inferior), pide
+          confirmación al eliminar y valida que haya al menos un integrante. El propietario no se
+          puede quitar.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="flex flex-col gap-4">
+          <div class="grid grid-cols-12 gap-4">
+            <app-input label="Equipo" [span]="6" [formField]="f.team" />
+            <app-table
+              mode="internal"
+              label="Integrantes"
+              [config]="membersTable"
+              [formField]="f.members"
+            />
+          </div>
+
+          <ion-button class="self-start" (click)="saveTeam()">Guardar equipo</ion-button>
+          @if (submitted(); as data) {
+            <pre class="overflow-x-auto rounded-lg p-3 text-xs"><code>{{ data | json }}</code></pre>
+          }
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Modo externo</ion-card-title>
+        <ion-card-subtitle>
+          La tabla solo muestra y emite (add), (edit) y (delete). La página decide: aquí confirma y
+          quita el producto de la lista; en un proyecto real llamaría a la API.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <app-table
+          [config]="productsTable"
+          [rows]="products()"
+          (add)="onProductAdd()"
+          (edit)="onProductEdit($event)"
+          (delete)="onProductDelete($event)"
+        />
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
