@@ -66,5 +66,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>La app usa la cámara para tomar fotos que adjuntas en los formularios.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>La app accede a tus fotos para que elijas una imagen.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>La app puede guardar en tu galería las fotos que tomes.</string>
 </dict>
 </plist>
