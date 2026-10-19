@@ -8,6 +8,10 @@ export const routes: Routes = [
     component: MainLayout,
     children: [
       {
+        path: 'showcase',
+        loadChildren: () => import('./features/showcase/showcase.routes'),
+      },
+      {
         path: '',
         pathMatch: 'full',
         loadChildren: () => import('./features/home/home.routes'),

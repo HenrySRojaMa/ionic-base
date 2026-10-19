@@ -15,7 +15,7 @@ import {
   IonToolbar,
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { homeOutline } from 'ionicons/icons';
+import { appsOutline, homeOutline } from 'ionicons/icons';
 import { NavigationService } from '../navigation/navigation.service';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { UserMenu } from '../user-menu/user-menu';
@@ -60,6 +60,6 @@ export class MainLayout {
   protected readonly items = inject(NavigationService).items;
 
   constructor() {
-    addIcons({ homeOutline });
+    addIcons({ homeOutline, appsOutline });
   }
 }

@@ -1,0 +1,120 @@
+<ion-header>
+  <app-page-toolbar title="Formularios" />
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Maquetación con Tailwind: una columna en el teléfono, dos zonas en escritorio. -->
+  <div class="mx-auto grid max-w-6xl gap-4 lg:grid-cols-3">
+    <!-- Los campos NO están envueltos en un <form>: [formField] no lo necesita. -->
+    <ion-card class="m-0 lg:col-span-2">
+      <ion-card-header>
+        <ion-card-title>Datos personales</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="flex flex-col gap-4">
+        <div class="grid grid-cols-12 gap-4">
+          <app-input label="Nombre" [span]="8" [formField]="f.name" />
+          <app-input
+            label="Cédula"
+            hint="10 dígitos"
+            [digitsOnly]="true"
+            [span]="4"
+            [formField]="f.idNumber"
+          />
+          <app-input label="Correo" type="email" [span]="6" [formField]="f.email" />
+          <app-input
+            label="Fecha de nacimiento"
+            type="date"
+            [span]="[12, 3]"
+            [formField]="f.birthDate"
+          />
+          <app-input label="Edad" type="number" [span]="[12, 3]" [formField]="f.age" />
+          <app-text-area label="Biografía" [rows]="3" [formField]="f.bio" />
+        </div>
+
+        <h2 class="flex items-center gap-2 text-lg font-medium">
+          Teléfonos <ion-chip>arreglo de valores</ion-chip>
+        </h2>
+        <div class="grid grid-cols-12 gap-4">
+          @for (phone of f.phones; track $index; let i = $index) {
+            <div class="col-span-full flex items-start gap-1 md:col-span-6">
+              <app-input
+                class="flex-1"
+                [label]="'Teléfono ' + (i + 1)"
+                [digitsOnly]="true"
+                [formField]="phone"
+              />
+              <ion-button
+                fill="clear"
+                color="medium"
+                aria-label="Quitar teléfono"
+                [disabled]="model().phones.length === 1"
+                (click)="removePhone(i)"
+              >
+                <ion-icon slot="icon-only" name="close-outline" />
+              </ion-button>
+            </div>
+          }
+        </div>
+        <ion-button class="self-start" fill="outline" size="small" (click)="addPhone()">
+          <ion-icon slot="start" name="add-outline" aria-hidden="true" />
+          Teléfono
+        </ion-button>
+
+        <h2 class="flex items-center gap-2 text-lg font-medium">
+          Referencias <ion-chip>arreglo de objetos</ion-chip>
+        </h2>
+        @for (reference of f.references; track $index; let i = $index) {
+          <div class="grid grid-cols-12 items-start gap-4">
+            <app-input label="Nombre" [span]="6" [formField]="reference.name" />
+            <app-select
+              label="Relación"
+              [options]="relations"
+              [span]="[10, 5]"
+              [formField]="reference.relation"
+            />
+            <ion-button
+              class="col-span-2 md:col-span-1"
+              fill="clear"
+              color="medium"
+              aria-label="Quitar referencia"
+              (click)="removeReference(i)"
+            >
+              <ion-icon slot="icon-only" name="close-outline" />
+            </ion-button>
+          </div>
+        } @empty {
+          <ion-note>Sin referencias.</ion-note>
+        }
+        <ion-button class="self-start" fill="outline" size="small" (click)="addReference()">
+          <ion-icon slot="start" name="add-outline" aria-hidden="true" />
+          Referencia
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="flex flex-col gap-4">
+      <ion-card class="m-0">
+        <ion-card-header>
+          <ion-card-title>Foto</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-image-file label="Foto de perfil" [maxSizeKb]="512" [formField]="f.photo" />
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="m-0">
+        <ion-card-content class="flex flex-col gap-2">
+          <ion-button expand="block" (click)="save()">Enviar</ion-button>
+          <ion-button expand="block" fill="outline" (click)="loadExample()">
+            Cargar ejemplo (modo edición)
+          </ion-button>
+          <ion-button expand="block" fill="clear" (click)="reset()">Limpiar</ion-button>
+
+          @if (submitted(); as data) {
+            <pre class="overflow-x-auto rounded-lg p-3 text-xs"><code>{{ data | json }}</code></pre>
+          }
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
