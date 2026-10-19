@@ -1,0 +1,62 @@
+<ion-header>
+  <app-page-toolbar title="Tema" />
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="mx-auto grid max-w-5xl grid-cols-1 lg:grid-cols-2">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Paleta</ion-card-title>
+        <ion-card-subtitle>
+          Elige los colores: la vista previa cambia al instante sin afectar al resto de la app.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="flex flex-col gap-4">
+          <div class="grid grid-cols-12 gap-4">
+            <app-color label="Primario" [span]="6" [formField]="f.primary" />
+            <app-color label="Secundario" [span]="6" [formField]="f.secondary" />
+            <app-color label="Acento" [span]="6" [formField]="f.accent" />
+            <app-color label="Neutro" [span]="6" [formField]="f.neutral" />
+            <app-color label="Fondo" [span]="6" [formField]="f.base" />
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <ion-button (click)="applyToApp()">Aplicar a toda la app</ion-button>
+            <ion-button fill="clear" (click)="resetApp()">Restablecer tema</ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!--
+      Vista previa: las variables --ion-color-* (y el fondo/texto) se definen SOLO en
+      este div. ion-card y sus hijos las heredan; el resto de la app no cambia.
+    -->
+    <div aria-label="Vista previa del tema" [appThemeScope]="model()">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Vista previa</ion-card-title>
+          <ion-card-subtitle
+            >Los componentes de Ionic toman los colores del bloque.</ion-card-subtitle
+          >
+        </ion-card-header>
+        <ion-card-content>
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-wrap gap-2">
+              <ion-button color="primary">Primario</ion-button>
+              <ion-button color="secondary">Secundario</ion-button>
+              <ion-button color="tertiary">Acento</ion-button>
+              <ion-button color="medium">Neutro</ion-button>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <ion-chip color="primary">chip</ion-chip>
+              <ion-chip color="secondary">chip</ion-chip>
+              <ion-toggle color="tertiary" [checked]="true">Interruptor</ion-toggle>
+            </div>
+            <ion-progress-bar color="primary" [value]="0.6" />
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

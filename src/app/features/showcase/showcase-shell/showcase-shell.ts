@@ -6,6 +6,7 @@ import {
   documentTextOutline,
   gitNetworkOutline,
   listOutline,
+  colorPaletteOutline,
 } from 'ionicons/icons';
 
 interface ShowcaseTab {
@@ -48,9 +49,16 @@ export class ShowcaseShell {
     { label: 'Cascada', path: 'cascade', icon: 'git-network-outline' },
     { label: 'Tabla', path: 'table', icon: 'list-outline' },
     { label: 'Diálogos', path: 'dialogs', icon: 'chatbubble-ellipses-outline' },
+    { label: 'Tema', path: 'theme', icon: 'color-palette-outline' },
   ];
 
   constructor() {
-    addIcons({ documentTextOutline, gitNetworkOutline, listOutline, chatbubbleEllipsesOutline });
+    addIcons({
+      documentTextOutline,
+      gitNetworkOutline,
+      listOutline,
+      chatbubbleEllipsesOutline,
+      colorPaletteOutline,
+    });
   }
 }
