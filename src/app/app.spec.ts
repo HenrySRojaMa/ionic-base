@@ -1,15 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { provideIonicAngular } from '@ionic/angular';
 import { App } from './app';
 
 describe('App', () => {
-  beforeEach(() => TestBed.configureTestingModule({ providers: [provideIonicAngular()] }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({ providers: [provideIonicAngular(), provideRouter([])] }),
+  );
 
-  it('renders the Ionic shell', async () => {
+  it('hosts the Ionic router outlet', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('ion-app')).not.toBeNull();
-    expect(element.querySelector('ion-title')?.textContent).toContain('ionic-base');
+    expect(fixture.nativeElement.querySelector('ion-app ion-router-outlet')).not.toBeNull();
   });
 });
