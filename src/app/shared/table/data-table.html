@@ -23,25 +23,31 @@
             }
           </ion-label>
 
-          <!-- Pantallas anchas: botones visibles (con mouse no se adivina el deslizar). -->
+          <!--
+            Pantallas anchas: botones visibles (con mouse no se adivina el deslizar).
+            hidden/lg:block van en un div propio: en ion-buttons no funcionarían, porque
+            su display:flex (estilo del componente, sin capa) le gana a Tailwind.
+          -->
           @if (showRowActions()) {
-            <ion-buttons slot="end" class="hidden lg:flex">
-              @if (view.canEdit) {
-                <ion-button class="edit" aria-label="Editar" (click)="onEdit(view)">
-                  <ion-icon slot="icon-only" name="create-outline" />
-                </ion-button>
-              }
-              @if (view.canDelete) {
-                <ion-button
-                  class="delete"
-                  color="danger"
-                  aria-label="Eliminar"
-                  (click)="onDelete(view)"
-                >
-                  <ion-icon slot="icon-only" name="trash-outline" />
-                </ion-button>
-              }
-            </ion-buttons>
+            <div slot="end" class="hidden lg:block">
+              <ion-buttons>
+                @if (view.canEdit) {
+                  <ion-button class="edit" aria-label="Editar" (click)="onEdit(view)">
+                    <ion-icon slot="icon-only" name="create-outline" />
+                  </ion-button>
+                }
+                @if (view.canDelete) {
+                  <ion-button
+                    class="delete"
+                    color="danger"
+                    aria-label="Eliminar"
+                    (click)="onDelete(view)"
+                  >
+                    <ion-icon slot="icon-only" name="trash-outline" />
+                  </ion-button>
+                }
+              </ion-buttons>
+            </div>
           }
         </ion-item>
 

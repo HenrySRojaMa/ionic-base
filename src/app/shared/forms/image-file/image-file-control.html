@@ -12,16 +12,17 @@
         class="aspect-square w-full rounded-lg object-contain"
       />
       @if (!disabled()) {
-        <ion-button
-          class="absolute top-2 right-2"
-          shape="round"
-          size="small"
-          color="medium"
-          aria-label="Quitar imagen"
-          (click)="clear()"
-        >
-          <ion-icon slot="icon-only" name="close-outline" />
-        </ion-button>
+        <div class="absolute top-2 right-2">
+          <ion-button
+            shape="round"
+            size="small"
+            color="medium"
+            aria-label="Quitar imagen"
+            (click)="clear()"
+          >
+            <ion-icon slot="icon-only" name="close-outline" />
+          </ion-button>
+        </div>
       }
     </div>
   } @else {

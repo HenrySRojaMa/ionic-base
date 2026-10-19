@@ -5,6 +5,12 @@
  *   utilities  -> utilidades de Tailwind (grid, flex, gap, márgenes...)
  * Así una utilidad de Tailwind puesta a propósito gana a los estilos globales
  * de Ionic. El interior de los componentes de Ionic (shadow DOM) no se toca.
+ *
+ * REGLA: las utilidades de Tailwind van en elementos propios (div, form,
+ * componentes app-*), NO en el host de un componente de Ionic. Los estilos de
+ * cada componente (ion-card-content{display:block}, ion-buttons{display:flex}...)
+ * se inyectan SIN capa, y lo que no tiene capa le gana a cualquier capa: un
+ * class="hidden" o "flex" sobre ion-buttons / ion-card-content se ignora.
  */
 @layer ionic, theme, utilities;
 
