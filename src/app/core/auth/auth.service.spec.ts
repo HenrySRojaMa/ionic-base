@@ -34,6 +34,26 @@ describe('AuthService', () => {
     expect(sessionService.session()).toEqual(session);
   });
 
+  it('restores the session at startup when the refresh succeeds', () => {
+    authApi.refresh.mockReturnValue(of(session));
+    let restored: boolean | undefined;
+
+    service.restoreSession().subscribe((value) => (restored = value));
+
+    expect(restored).toBe(true);
+    expect(sessionService.accessToken()).toBe('token-1');
+  });
+
+  it('starts anonymously when there is no session to restore', () => {
+    authApi.refresh.mockReturnValue(throwError(() => new Error('401')));
+    let restored: boolean | undefined;
+
+    service.restoreSession().subscribe((value) => (restored = value));
+
+    expect(restored).toBe(false);
+    expect(sessionService.isAuthenticated()).toBe(false);
+  });
+
   it('clears the session and navigates even if the server logout fails', () => {
     sessionService.start(session);
     authApi.logout.mockReturnValue(throwError(() => new Error('offline')));
