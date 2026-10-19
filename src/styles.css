@@ -1,14 +1,29 @@
 /*
- * Estilos base de Ionic. core.css es obligatorio; el resto son utilidades
- * (las mismas que trae la plantilla oficial de Ionic).
+ * Orden de las capas (cascade layers): lo declarado después gana.
+ *   ionic      -> estilos globales de Ionic
+ *   theme      -> variables de diseño de Tailwind
+ *   utilities  -> utilidades de Tailwind (grid, flex, gap, márgenes...)
+ * Así una utilidad de Tailwind puesta a propósito gana a los estilos globales
+ * de Ionic. El interior de los componentes de Ionic (shadow DOM) no se toca.
  */
-@import '@ionic/angular/css/core.css';
-@import '@ionic/angular/css/normalize.css';
-@import '@ionic/angular/css/structure.css';
-@import '@ionic/angular/css/typography.css';
-@import '@ionic/angular/css/padding.css';
-@import '@ionic/angular/css/float-elements.css';
-@import '@ionic/angular/css/text-alignment.css';
-@import '@ionic/angular/css/text-transformation.css';
-@import '@ionic/angular/css/flex-utils.css';
-@import '@ionic/angular/css/display.css';
+@layer ionic, theme, utilities;
+
+/* Estilos base de Ionic (core.css es obligatorio). */
+@import '@ionic/angular/css/core.css' layer(ionic);
+@import '@ionic/angular/css/normalize.css' layer(ionic);
+@import '@ionic/angular/css/structure.css' layer(ionic);
+@import '@ionic/angular/css/typography.css' layer(ionic);
+@import '@ionic/angular/css/padding.css' layer(ionic);
+@import '@ionic/angular/css/float-elements.css' layer(ionic);
+@import '@ionic/angular/css/text-alignment.css' layer(ionic);
+@import '@ionic/angular/css/text-transformation.css' layer(ionic);
+@import '@ionic/angular/css/flex-utils.css' layer(ionic);
+@import '@ionic/angular/css/display.css' layer(ionic);
+
+/*
+ * Tailwind 4 SOLO para maquetación: se importan "theme" y "utilities" pero NO
+ * "preflight" (su reseteo de estilos chocaría con el de Ionic). Tampoco se usa
+ * daisyUI: los componentes visuales son los de Ionic.
+ */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);

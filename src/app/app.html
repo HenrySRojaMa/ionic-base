@@ -5,11 +5,18 @@
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <h1>Ionic 9 + Angular 22</h1>
-    <p>Los componentes de Ionic se adaptan solos al estilo de iOS o Android.</p>
-    <ion-button>
-      <ion-icon slot="start" name="checkmark-circle" />
-      Ionic funciona
-    </ion-button>
+    <!-- Maquetación con Tailwind; componentes con Ionic -->
+    <div class="grid gap-4 md:grid-cols-2">
+      <section>
+        <h1>Ionic 9 + Angular 22</h1>
+        <p>Los componentes de Ionic se adaptan solos al estilo de iOS o Android.</p>
+      </section>
+      <section class="flex items-center md:justify-end">
+        <ion-button>
+          <ion-icon slot="start" name="checkmark-circle" />
+          Ionic funciona
+        </ion-button>
+      </section>
+    </div>
   </ion-content>
 </ion-app>
