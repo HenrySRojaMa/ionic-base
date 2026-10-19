@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideIonicAngular } from '@ionic/angular';
 import { DataTable } from './data-table';
 import { TableConfig } from './table-config';
 
@@ -47,6 +48,8 @@ const SELECTORS: Record<Layout, string> = {
 
 describe('DataTable (external mode)', () => {
   async function setup() {
+    // La tabla inyecta ModalController y AlertController: los registra provideIonicAngular().
+    TestBed.configureTestingModule({ providers: [provideIonicAngular()] });
     const fixture = TestBed.createComponent(Host);
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
