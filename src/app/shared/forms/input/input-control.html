@@ -1,0 +1,25 @@
+<ion-input
+  [class]="ionClasses()"
+  fill="outline"
+  labelPlacement="stacked"
+  [type]="type()"
+  [value]="displayValue()"
+  [placeholder]="placeholder()"
+  [disabled]="disabled()"
+  [required]="required()"
+  [min]="min()"
+  [max]="max()"
+  [step]="step()"
+  [maxlength]="maxLength()"
+  [inputmode]="digitsOnly() ? 'numeric' : undefined"
+  [autocomplete]="autocomplete()"
+  [helperText]="hint()"
+  [errorText]="errorMessage() ?? ''"
+  (ionInput)="onInput($event)"
+  (ionBlur)="markAsTouched()"
+>
+  <app-control-label slot="label" [text]="label()" [required]="required()" />
+  @if (type() === 'password') {
+    <ion-input-password-toggle slot="end" />
+  }
+</ion-input>
