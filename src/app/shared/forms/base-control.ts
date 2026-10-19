@@ -16,7 +16,7 @@ import { FORM_ERROR_MESSAGES, firstErrorMessage } from './error-messages';
  * Diferencia con Ionic: los componentes de Ionic ya dibujan etiqueta, ayuda
  * (helperText) y error (errorText). Muestran el error solo si el elemento tiene
  * las clases ion-touched e ion-invalid; las subclases las enlazan con
- * ionClasses para que el control decida cuándo mostrarlo.
+ * ionClasses para que el control decida cuándo mostrarlo (y no Ionic).
  */
 @Directive({
   host: { '[class]': 'hostClass()' },
@@ -45,9 +45,15 @@ export abstract class BaseControl<T> implements FormValueControl<T | null> {
   protected readonly errorMessage = computed(() =>
     this.showError() ? firstErrorMessage(this.errors(), this.messages) : null,
   );
-  /** Clases con las que Ionic decide mostrar errorText (ver checkInvalidState de Ionic). */
+  /**
+   * Clases con las que Ionic decide mostrar errorText (ver checkInvalidState de Ionic).
+   *
+   * Van también las ng-*: en cada ionBlur, el ValueAccessor de Ionic BORRA las
+   * clases ion-* y las vuelve a crear copiando las ng-* (pensado para Reactive
+   * Forms). Sin ng-*, el error desaparecería al salir del campo.
+   */
   protected readonly ionClasses = computed(() =>
-    this.showError() ? 'ion-touched ion-invalid' : '',
+    this.showError() ? 'ng-touched ng-invalid ion-touched ion-invalid' : '',
   );
 
   /** Llamar en el ionBlur del componente de Ionic. */

@@ -95,6 +95,9 @@ describe('InputControl (Ionic)', () => {
     type(input('.email'), 'no-es-correo');
     input('.email').dispatchEvent(new CustomEvent('ionBlur'));
     await fixture.whenStable();
+    // El ValueAccessor de Ionic reescribe las clases ion-* en el siguiente frame:
+    // se espera a que pase para comprobar que el error SOBREVIVE a ese reescrito.
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(input('.email').errorText).toBe('Ingresa un correo electrónico válido.');
     expect(input('.email').classList).toContain('ion-invalid');
