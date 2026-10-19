@@ -14,5 +14,21 @@
         Capacitor 8 y Tailwind CSS 4 para maquetación. Un mismo código para web, Android e iOS.
       </ion-card-content>
     </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Dónde corre la app</ion-card-title>
+      </ion-card-header>
+      <ion-list lines="full">
+        <ion-item>
+          <ion-label>Plataforma</ion-label>
+          <ion-note slot="end" class="platform">{{ platformLabel }}</ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>App nativa (Capacitor)</ion-label>
+          <ion-note slot="end">{{ isNative ? 'Sí' : 'No' }}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card>
   </div>
 </ion-content>
