@@ -9,7 +9,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     // Ionic 9: provideIonicAngular() reemplaza a IonicModule.forRoot() (deprecado).
     // Los componentes se importan uno a uno desde '@ionic/angular' (standalone por defecto).
-    provideIonicAngular(),
+    // useSetInputAPI: Ionic pasa componentProps con setInput() (compatible con input()
+    // con signals). Sin esto usaría Object.assign y pisaría el signal del input.
+    provideIonicAngular({ useSetInputAPI: true }),
     provideCore(),
     provideRouter(routes),
   ],
