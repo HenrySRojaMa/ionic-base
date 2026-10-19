@@ -1,0 +1,30 @@
+<div class="flex flex-col gap-2">
+  @if (label()) {
+    <span class="text-sm"><app-control-label [text]="label()" [required]="required()" /></span>
+  }
+
+  <ion-list lines="full" class="rounded-lg">
+    @for (view of views(); track trackRow(view.row)) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ view.title }}</h2>
+          @for (detail of view.details; track detail.header) {
+            <p>{{ detail.header }}: {{ detail.value }}</p>
+          }
+        </ion-label>
+      </ion-item>
+    } @empty {
+      <ion-item lines="none">
+        <ion-label color="medium" class="ion-text-center">
+          {{ config().emptyMessage || 'No hay registros.' }}
+        </ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  @if (errorMessage(); as message) {
+    <ion-note color="danger" role="alert">{{ message }}</ion-note>
+  } @else if (hint()) {
+    <ion-note>{{ hint() }}</ion-note>
+  }
+</div>
