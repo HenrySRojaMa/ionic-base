@@ -19,6 +19,8 @@
 @import '@ionic/angular/css/text-transformation.css' layer(ionic);
 @import '@ionic/angular/css/flex-utils.css' layer(ionic);
 @import '@ionic/angular/css/display.css' layer(ionic);
+/* Paleta oscura oficial de Ionic: se activa con la clase ion-palette-dark en <html>. */
+@import '@ionic/angular/css/palettes/dark.class.css' layer(ionic);
 
 /*
  * Tailwind 4 SOLO para maquetación: se importan "theme" y "utilities" pero NO
