@@ -1,0 +1,45 @@
+<!-- Sin componente de Ionic que dibuje etiqueta/ayuda/error: se arman con ion-note. -->
+<div class="flex flex-col gap-2">
+  @if (label()) {
+    <span class="text-sm"><app-control-label [text]="label()" [required]="required()" /></span>
+  }
+
+  @if (preview(); as src) {
+    <div class="relative">
+      <img
+        [src]="src"
+        [alt]="label() || 'Imagen seleccionada'"
+        class="aspect-square w-full rounded-lg object-contain"
+      />
+      @if (!disabled()) {
+        <ion-button
+          class="absolute top-2 right-2"
+          shape="round"
+          size="small"
+          color="medium"
+          aria-label="Quitar imagen"
+          (click)="clear()"
+        >
+          <ion-icon slot="icon-only" name="close-outline" />
+        </ion-button>
+      }
+    </div>
+  } @else {
+    <ion-button
+      expand="block"
+      fill="outline"
+      [color]="displayedError() ? 'danger' : 'primary'"
+      [disabled]="disabled() || busy()"
+      (click)="pick()"
+    >
+      <ion-icon slot="start" name="camera-outline" aria-hidden="true" />
+      {{ placeholder() || 'Elegir imagen' }}
+    </ion-button>
+  }
+
+  @if (displayedError(); as message) {
+    <ion-note color="danger" role="alert">{{ message }}</ion-note>
+  } @else if (hint()) {
+    <ion-note>{{ hint() }}</ion-note>
+  }
+</div>
