@@ -1,0 +1,119 @@
+@let waiting = busy();
+<ion-header>
+  <app-page-toolbar title="Diálogos y HTTP" />
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="mx-auto grid max-w-5xl grid-cols-1 lg:grid-cols-2">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Mensajes directos</ion-card-title>
+        <ion-card-subtitle>
+          DialogService: success (toast), error, warning, info y confirm (ion-alert).
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="flex flex-wrap gap-2">
+          <ion-button size="small" color="success" (click)="showSuccess()">Éxito</ion-button>
+          <ion-button size="small" color="danger" (click)="showError()">Error</ion-button>
+          <ion-button size="small" color="warning" (click)="showWarning()">
+            Advertencia
+          </ion-button>
+          <ion-button size="small" fill="outline" (click)="askConfirmation()">
+            Confirmación
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Peticiones HTTP</ion-card-title>
+        <ion-card-subtitle>
+          Cada petición decide su diálogo con las opciones de ApiService; los muestra el interceptor
+          de diálogos.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="flex flex-wrap gap-2">
+          <ion-button size="small" fill="outline" [disabled]="!!waiting" (click)="callSuccess()">
+            @if (waiting === 'success') {
+              <ion-spinner slot="start" name="crescent" />
+            }
+            success: true
+          </ion-button>
+          <ion-button
+            size="small"
+            fill="outline"
+            [disabled]="!!waiting"
+            (click)="callValidationError()"
+          >
+            @if (waiting === 'error') {
+              <ion-spinner slot="start" name="crescent" />
+            }
+            error: true (400)
+          </ion-button>
+          <ion-button size="small" fill="outline" [disabled]="!!waiting" (click)="callConflict()">
+            @if (waiting === 'conflict') {
+              <ion-spinner slot="start" name="crescent" />
+            }
+            custom (409)
+          </ion-button>
+          <ion-button
+            size="small"
+            fill="outline"
+            [disabled]="!!waiting"
+            (click)="callServerError()"
+          >
+            @if (waiting === 'server') {
+              <ion-spinner slot="start" name="crescent" />
+            }
+            error: true (500)
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="lg:col-span-2">
+      <ion-card-header>
+        <ion-card-title>Refresh de token con cola</ion-card-title>
+        <ion-card-subtitle>
+          Vence el token y lanza 3 peticiones protegidas a la vez: el interceptor hace un solo
+          refresh y reintenta las tres.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        @if (isAuthenticated()) {
+          <div class="flex flex-col items-start gap-2">
+            <ion-button size="small" [disabled]="!!waiting" (click)="simulateExpiredToken()">
+              @if (waiting === 'refresh') {
+                <ion-spinner slot="start" name="crescent" />
+              }
+              Simular token vencido + 3 peticiones
+            </ion-button>
+            @if (log().length) {
+              <ul class="list-inside list-disc text-sm">
+                @for (line of log(); track $index) {
+                  <li class="break-all">{{ line }}</li>
+                }
+              </ul>
+            }
+          </div>
+        } @else {
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <ion-text color="medium">
+              Inicia sesión para probarlo (backend simulado: demo / demo123).
+            </ion-text>
+            <ion-button
+              size="small"
+              routerLink="/auth/login"
+              [queryParams]="{ returnUrl: '/showcase/dialogs' }"
+            >
+              Ingresar
+            </ion-button>
+          </div>
+        }
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
