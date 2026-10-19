@@ -1,0 +1,7 @@
+# Todos los archivos de texto se guardan con saltos de línea LF en el repositorio,
+# sin importar el sistema operativo de quien hace el commit.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
