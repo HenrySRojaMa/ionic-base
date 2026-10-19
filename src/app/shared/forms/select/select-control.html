@@ -1,0 +1,24 @@
+<ion-select
+  [class]="ionClasses()"
+  fill="outline"
+  labelPlacement="stacked"
+  [interface]="overlay()"
+  [value]="value()"
+  [placeholder]="placeholder() || 'Seleccione...'"
+  [disabled]="disabled()"
+  [helperText]="hint()"
+  [errorText]="errorMessage() ?? ''"
+  cancelText="Cancelar"
+  (ionChange)="onChange($event)"
+  (ionBlur)="markAsTouched()"
+>
+  <app-control-label slot="label" [text]="label()" [required]="required()" />
+  @if (allowNull()) {
+    <ion-select-option [value]="null">{{ placeholder() || 'Ninguno' }}</ion-select-option>
+  }
+  @for (option of options(); track option.value) {
+    <ion-select-option [value]="option.value" [disabled]="option.disabled ?? false">
+      {{ option.label }}
+    </ion-select-option>
+  }
+</ion-select>
