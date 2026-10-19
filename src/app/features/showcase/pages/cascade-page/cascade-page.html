@@ -1,0 +1,50 @@
+<ion-header>
+  <app-page-toolbar title="Cascada" />
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="mx-auto max-w-4xl">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Dirección
+          @if (places.isLoading()) {
+            <ion-spinner name="dots" aria-label="Cargando catálogo" />
+          }
+        </ion-card-title>
+        <ion-card-subtitle>
+          Las listas se derivan del valor del formulario. Cambiar el país limpia provincia y ciudad
+          solo cuando lo hace el usuario; "Cargar dirección guardada" llena los tres a la vez.
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="flex flex-col gap-4">
+          <div class="grid grid-cols-12 gap-4">
+            <app-select
+              label="País"
+              [span]="4"
+              [options]="countryOptions()"
+              [formField]="f.country"
+              (valueChange)="onCountryChosen()"
+            />
+            <app-select
+              label="Provincia"
+              [span]="4"
+              [options]="stateOptions()"
+              [formField]="f.state"
+              (valueChange)="onStateChosen()"
+            />
+            <app-select label="Ciudad" [span]="4" [options]="cityOptions()" [formField]="f.city" />
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <code class="text-sm">{{ model() | json }}</code>
+            <ion-button fill="outline" size="small" (click)="loadSaved()">
+              Cargar dirección guardada
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

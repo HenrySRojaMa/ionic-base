@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { CascadePage } from './pages/cascade-page/cascade-page';
 import { FormsPage } from './pages/forms-page/forms-page';
 import { ShowcaseShell } from './showcase-shell/showcase-shell';
 
@@ -9,6 +10,7 @@ export default [
     component: ShowcaseShell,
     children: [
       { path: 'forms', component: FormsPage, title: 'Showcase · Formularios' },
+      { path: 'cascade', component: CascadePage, title: 'Showcase · Cascada' },
       { path: '', pathMatch: 'full', redirectTo: 'forms' },
     ],
   },
