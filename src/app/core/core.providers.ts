@@ -10,11 +10,9 @@ import { authInterceptor } from './http/interceptors/auth.interceptor';
 import { dialogInterceptor } from './http/interceptors/dialog.interceptor';
 import { IMAGE_PICKER } from '@shared/forms/image-file/image-picker';
 import { MediaService } from './platform/media.service';
-import { environment } from '@env/environment';
-import { mockApiInterceptor } from './mock/mock-api.interceptor';
-
-/** Backend simulado solo con mockApi = true; va último para no alterar a los demás. */
-const MOCK_INTERCEPTORS = environment.mockApi ? [mockApiInterceptor] : [];
+// Backend simulado solo con mockApi = true (y nunca en el build de producción);
+// va último para no alterar a los demás.
+import { MOCK_INTERCEPTORS } from './mock/mock-interceptors';
 
 /**
  * Infraestructura de toda la aplicación (HTTP, sesión, interceptores, tema...).

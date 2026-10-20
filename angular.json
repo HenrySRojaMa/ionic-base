@@ -41,7 +41,13 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/app/core/mock/mock-interceptors.ts",
+                  "with": "src/app/core/mock/mock-interceptors.production.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
