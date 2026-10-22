@@ -1,8 +1,25 @@
-<ion-split-pane contentId="main-content" when="lg">
+<!-- disabled = menú contraído: el contenido usa todo el ancho y el menú pasa a overlay. -->
+<ion-split-pane contentId="main-content" when="lg" [disabled]="!menuState.pinned()">
   <ion-menu contentId="main-content" type="overlay">
     <ion-header>
       <ion-toolbar>
         <ion-title>{{ appName }}</ion-title>
+        <!-- Solo en pantallas anchas: en el teléfono el menú siempre es deslizable. -->
+        <div slot="end" class="hidden lg:block">
+          <ion-buttons>
+            <ion-button
+              class="menu-pin"
+              [attr.aria-label]="menuState.pinned() ? 'Contraer menú' : 'Fijar menú'"
+              [title]="menuState.pinned() ? 'Contraer menú' : 'Fijar menú'"
+              (click)="togglePinned()"
+            >
+              <ion-icon
+                slot="icon-only"
+                [name]="menuState.pinned() ? 'chevron-back-outline' : 'pin-outline'"
+              />
+            </ion-button>
+          </ion-buttons>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content>
