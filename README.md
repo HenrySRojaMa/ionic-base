@@ -13,6 +13,10 @@ lógica de negocio, y una sección **Showcase** que funciona como documentación
 | Pruebas      | Vitest + jsdom                                        |
 | Node         | ^22.22.3 o ^24.15                                     |
 
+> **Reglas del proyecto:** todo lo que hay que respetar al trabajar sobre esta base (capas, HTTP,
+> formularios, estilos, pruebas y commits), con el porqué de cada regla, está en
+> [CONVENCIONES.md](CONVENCIONES.md).
+
 ## Cómo ejecutarlo
 
 ```bash
@@ -82,6 +86,8 @@ La lógica (servicios, interceptores, esquemas de Signal Forms, páginas del sho
 cambian las plantillas. Compara `features/showcase/pages/forms-page/forms-page.ts` en ambas bases.
 
 ## Reglas que aprendimos (y están en el historial)
+
+Las más importantes; la lista completa está en [CONVENCIONES.md](CONVENCIONES.md).
 
 - **Tailwind fuera de los componentes de Ionic.** Los estilos de cada componente de Ionic se
   inyectan sin capa de cascada y le ganan a `@layer utilities`: `class="hidden"` sobre
