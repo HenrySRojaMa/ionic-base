@@ -141,14 +141,117 @@ const table: TableConfig<Member> = { ..., editor: MemberEditor, editorOptions: {
 | `ColorControl`     | `app-color`      | `<input type="color">` nativo                         |
 | `DataTable`        | `app-table`      | `ion-list` + `ion-item-sliding`, modo interno/externo |
 
-## Iniciar un proyecto a partir de esta base
+## Cómo arrancar un proyecto nuevo desde esta base
 
-1. Borrar `features/showcase`, `domain/place` y adaptar o desactivar `core/mock`.
-2. Quitar la ruta `showcase` de `app.routes.ts` y su ítem en `layout/navigation/app-navigation.ts`.
-3. Configurar `apiUrl` y `auth` en `src/environments/` (el backend debe aceptar `client: 'native'`
-   y devolver el refresh token en el cuerpo para las apps nativas).
-4. Cambiar `appId` y `appName` en `capacitor.config.ts` y ejecutar `npm run cap:sync`.
-5. Crear entidades en `domain/<entidad>/` y features en `features/<feature>/<feature>.routes.ts`.
+Regla para los proyectos **nuevos** que se creen a partir de esta base de aquí en adelante (los que
+ya existen no se tocan).
+
+1. **Copiar la base**, quitar su remoto y seguir el historial con commits propios:
+
+   ```bash
+   git clone ionic-base <nombre-del-proyecto>
+   cd <nombre-del-proyecto>
+   git remote remove origin
+   npm ci
+   ```
+
+2. **El proyecto nuevo no menciona la base en ninguna parte**: se renombra todo lo que contiene el
+   nombre de la base o la palabra "base" referida a la plantilla, incluidos los proyectos nativos de
+   Android e iOS (ver [Qué renombrar](#qué-renombrar-al-arrancar-un-proyecto)).
+3. **Se borra la demostración** de la base ([Qué borrar](#qué-borrar-al-arrancar-un-proyecto)) y
+   **se adapta lo propio** del proyecto ([Qué adaptar](#qué-adaptar)).
+4. **Orden de los primeros commits:**
+   1. `chore: rename template to <NombreProyecto>`: solo el renombrado.
+   2. `refactor: remove the template demo`: solo el borrado de la demostración.
+   3. Después, los commits propios del proyecto (adaptación y funcionalidades).
+
+Al terminar, `git grep -n -i "ionic-base\|ionicbase\|ionic base\|base moderna\|base legacy\|com\.example"`
+no debe encontrar nada.
+
+### Qué renombrar al arrancar un proyecto
+
+Archivos y claves de esta base que contienen su nombre. El `appId` se reemplaza por el
+identificador real de la app (dominio invertido de la organización, por ejemplo `ec.empresa.app`):
+no se puede cambiar después de publicar en las tiendas.
+
+| Archivo                                                             | Clave / lugar                                                                        | Valor actual                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------ |
+| `package.json`                                                      | `name`                                                                               | `ionic-base`                         |
+| `package-lock.json`                                                 | `name` (2 veces; se regenera con `npm install`)                                      | `ionic-base`                         |
+| `angular.json`                                                      | `projects` → nombre del proyecto (también define la carpeta `dist/<nombre>`)         | `ionic-base`                         |
+| `angular.json`                                                      | `serve.configurations.production` / `development` → `buildTarget`                    | `ionic-base:build:...`               |
+| `capacitor.config.ts`                                               | `appId`                                                                              | `com.example.ionicbase`              |
+| `capacitor.config.ts`                                               | `appName`                                                                            | `Ionic Base`                         |
+| `capacitor.config.ts`                                               | `webDir`                                                                             | `dist/ionic-base/browser`            |
+| `scripts/check-prod-bundle.mjs`                                     | `const dir`                                                                          | `dist/ionic-base/browser`            |
+| `android/app/build.gradle`                                          | `namespace` y `applicationId`                                                        | `com.example.ionicbase`              |
+| `android/app/src/main/java/com/example/ionicbase/MainActivity.java` | `package` **y la ruta de carpetas** (`com/example/ionicbase` → la del nuevo `appId`) | `com.example.ionicbase`              |
+| `android/app/src/main/res/values/strings.xml`                       | `app_name`, `title_activity_main`                                                    | `Ionic Base`                         |
+| `android/app/src/main/res/values/strings.xml`                       | `package_name`, `custom_url_scheme`                                                  | `com.example.ionicbase`              |
+| `ios/App/App.xcodeproj/project.pbxproj`                             | `PRODUCT_BUNDLE_IDENTIFIER` (Debug y Release)                                        | `com.example.ionicbase`              |
+| `ios/App/App/Info.plist`                                            | `CFBundleDisplayName`                                                                | `Ionic Base`                         |
+| `src/index.html`                                                    | `<title>`                                                                            | `Ionic Base`                         |
+| `src/app/layout/main-layout/main-layout.ts`                         | `appName` (título del menú lateral)                                                  | `Ionic Base`                         |
+| `src/app/features/home/pages/home-page/home-page.html`              | `ion-card-title` y el texto de presentación                                          | `Ionic Base` / "Plantilla base con…" |
+| `README.md`                                                         | Todo el documento: título, descripción, comparación con la base moderna              | `# Ionic Base`                       |
+| `CONVENCIONES.md`                                                   | Las frases que hablan de "esta base" y de `angular-modern-base`                      | —                                    |
+| `src/app/domain/README.md`                                          | "La base no trae entidades…"                                                         | —                                    |
+| `src/environments/environment.model.ts`                             | Comentario de `mockApi`: "Permite ejecutar la base sin servidor"                     | —                                    |
+| `src/app/features/home/pages/home-page/home-page.ts`                | Comentario: "presenta la base"                                                       | —                                    |
+
+Comentarios que comparan con las bases web (se reescriben sin esa referencia):
+`core/auth/auth.guards.ts`, `core/auth/session.service.ts`,
+`core/http/interceptors/dialog.interceptor.ts`, `core/theme/theme.service.ts`,
+`features/auth/pages/login-page/login-page.ts`, `shared/forms/app-validators.ts` y
+`shared/forms/input/input-control.ts` (todos bajo `src/app/`).
+
+Después de renombrar: `npm run build` y `npx cap sync` para que Android e iOS tomen los cambios.
+
+**No se renombra** lo que usa "base" en sentido técnico: `<base href="/">` (`src/index.html`),
+"Estilos base de Ionic" (`src/styles.css`), el color `base` de la paleta (`shared/theme`), "URL
+base" (`environment.model.ts`), "modelos base" (`domain/README.md`), `BaseControl` /
+`base-control.ts` (la clase base de los controles) ni las carpetas `Base.lproj` de iOS (son la
+localización por defecto de Xcode).
+
+### Qué borrar al arrancar un proyecto
+
+| Archivo o carpeta                                | Qué es                                                                                                    |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `src/app/features/showcase/`                     | Pantallas de demostración con pestañas (formularios, cascada, tabla, diálogos, tema)                      |
+| `src/app/domain/place/`                          | Entidad de ejemplo de la cascada (catálogo país > provincia > ciudad)                                     |
+| `src/app/app.routes.ts`                          | La ruta `showcase` (solo esa entrada)                                                                     |
+| `src/app/layout/navigation/app-navigation.ts`    | El ítem `Showcase` del menú (solo esa entrada)                                                            |
+| `src/app/layout/main-layout/main-layout.ts`      | El ícono `appsOutline` (solo lo usa el ítem `Showcase`)                                                   |
+| `src/app/core/mock/mock-data.ts`                 | `MOCK_PLACES` y su interfaz (el archivo se queda: también tiene `MOCK_USERS`)                             |
+| `src/app/core/mock/mock-api.interceptor.ts`      | Las rutas `demo/*` (`protected`, `success`, `error`, `conflict`, `server-error`, `places`) y sus handlers |
+| `src/app/core/mock/mock-api.interceptor.spec.ts` | Las pruebas de las rutas `demo/*`                                                                         |
+
+El mock en sí (`core/mock`) se conserva mientras el proyecto lo use para desarrollar sin backend:
+se le agregan las rutas del proyecto. Si no se usa, se desactiva con `mockApi: false`.
+
+### Qué adaptar
+
+- **API:** `apiUrl` y `auth` (`loginUrl`, `refreshUrl`, `logoutUrl`) en `src/environments/`, si
+  el backend usa otras rutas. El backend debe aceptar `client: 'native'` y devolver el refresh
+  token en el cuerpo para las apps nativas.
+- **Formato de respuesta:** `ApiResponse` (`core/models`) y el mapeo de sesión en
+  `core/auth/auth.api.ts`, si el backend responde distinto.
+- **Rutas de sesión:** `AUTH_PATHS` (`core/auth/auth-paths.ts`).
+- **Mock:** usuarios de prueba (`MOCK_USERS`), rutas del proyecto y los textos que busca
+  `scripts/check-prod-bundle.mjs`.
+- **Menú:** `APP_NAVIGATION` (`layout/navigation/app-navigation.ts`) y sus íconos en `MainLayout`.
+- **Inicio y textos visibles:** `features/home` y `FORM_ERROR_MESSAGES`
+  (`shared/forms/error-messages.ts`).
+- **Colores:** las variables `--ion-color-*` del proyecto se agregan en `src/styles.css` (hoy usa
+  la paleta por defecto de Ionic).
+- **Íconos y pantalla de inicio:** `public/favicon.ico` para la web; en Android e iOS siguen siendo
+  los de Capacitor y se generan para el proyecto (por ejemplo con `@capacitor/assets`).
+- **Permisos nativos:** revisar los textos de cámara y fotos de `ios/App/App/Info.plist` (los ve
+  el usuario al pedir el permiso).
+- **Documentación:** `README.md` del proyecto y `CONVENCIONES.md` (se conserva con sus reglas, sin
+  mencionar la base).
+- **Dominio y funcionalidades:** entidades en `domain/<entidad>/` y features en
+  `features/<feature>/<feature>.routes.ts`.
 
 ## Estudiar el historial
 

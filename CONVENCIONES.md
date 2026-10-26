@@ -98,7 +98,21 @@ and let users collapse it`).
 - Las apps nativas se compilan con Android Studio (Android) o Xcode en una Mac (iOS). Tras agregar
   un plugin de Capacitor: `npx cap sync` y commit de los cambios nativos.
 
-## 7. Commits
+## 7. Proyectos nuevos
+
+- Un proyecto nuevo se crea **clonando** la base en una carpeta con el nombre del proyecto, quitando
+  el remoto (`git remote remove origin`) y continuando el historial con sus propios commits.
+- El proyecto nuevo **no menciona la base en ninguna parte**: se renombra todo lo que contiene su
+  nombre o la palabra "base" referida a la plantilla (configuración, títulos, textos, comentarios,
+  README).
+- Se **borra** la demostración (showcase, entidad de ejemplo, rutas `demo/*` del mock) y se
+  **adapta** lo propio del proyecto (API, rutas de sesión, textos, colores, íconos).
+- Primer commit: `chore: rename template to <NombreProyecto>`; segundo: `refactor: remove the
+template demo`.
+- Las listas exactas de qué renombrar, borrar y adaptar están en el README, sección "Cómo arrancar
+  un proyecto nuevo desde esta base".
+
+## 8. Commits
 
 - **Un commit = una sola idea**, en orden lógico (primero lo que otros necesitan). Cada commit
   compila y pasa las pruebas por sí solo.
